@@ -1,5 +1,6 @@
 package com.dsoft.product_category.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	@Override
 	public Map<String, Object> save(ProductCategoryModel model) {
 		return productCategoryDAO.save(model);
+	}
+
+	@Override
+	public List<Map<String, Object>> findAll() {
+		return productCategoryDAO.findAll();
 	}
 
 }

@@ -1,10 +1,17 @@
 package com.dsoft.product_category.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +38,26 @@ public class ProductCategoryDAOImpl implements ProductCategoryDAO {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> findAll() {
+		List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+		try {
+			DetachedCriteria criteria = DetachedCriteria.forClass(ProductCategory.class, "pc");
+			ProjectionList projectionList = Projections.projectionList();
+			projectionList.add(Projections.property("pc.id"), "id");
+			projectionList.add(Projections.property("pc.categoryName"), "categoryName");
+			criteria.setProjection(projectionList);
+			criteria.addOrder(Order.asc("pc.id"));
+			criteria.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+			Session session = sessionFactory.getCurrentSession();
+			results = criteria.getExecutableCriteria(session).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return results;
 	}
 
 }

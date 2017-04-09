@@ -1,5 +1,5 @@
 angular.module('app').controller('ProductCategoryController', function($scope, $http) {
-	
+	$scope.productCategories = [];
 	$scope.save = function() {
 		console.log($scope.categoryName);
 		$http.post('product_category/save', { categoryName: $scope.categoryName }).success(function(response) {
@@ -13,4 +13,16 @@ angular.module('app').controller('ProductCategoryController', function($scope, $
 			console.log(e);
 		});
 	};
+	
+	$scope.findAll = function() {
+		$http.get('product_category/findAll').success(function(res) {
+			console.log(res);
+			$scope.productCategories = res;
+		}).error(function(e) {
+			console.log(e);
+		});
+	};
+	
+	$scope.findAll();
+	
 });

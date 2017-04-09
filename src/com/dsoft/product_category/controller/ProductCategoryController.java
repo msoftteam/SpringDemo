@@ -1,5 +1,6 @@
 package com.dsoft.product_category.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,10 @@ public class ProductCategoryController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public Map<String, Object> save(@RequestBody ProductCategoryModel model) {
 		return productCategoryService.save(model);
+	}
+	
+	@RequestMapping(value = "/findAll", method = RequestMethod.GET)
+	public List<Map<String, Object>> findAll() {
+		return productCategoryService.findAll();
 	}
 }
